@@ -6,10 +6,9 @@ RUN apt-get update \
     && apt-get install postgis -y
 
 # Variables needed at runtime to configure postgres and run the initdb scripts
-ENV POSTGRES_DB ''
-ENV POSTGRES_USER ''
-ENV POSTGRES_PASSWORD ''
+ENV POSTGRES_DB 'my_app'
+ENV POSTGRES_USER 'my_app'
+ENV POSTGRES_PASSWORD 'secret'
 
 # Copy in the load-extensions script
-# COPY dockerfiles/load-extensions.sh /docker-entrypoint-initdb.d/
-COPY dockerfiles/db.sql /docker-entrypoint-initdb.d/
+COPY dockerfiles/load-extensions.sh /docker-entrypoint-initdb.d/

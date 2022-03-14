@@ -14,7 +14,7 @@ RUN apt-get update \
     && docker-php-ext-configure intl \
     && docker-php-ext-install pdo pdo_pgsql pgsql mbstring intl
 
-COPY src .
+COPY app .
 
 
 RUN chown -R www-data:www-data /var/www/html
