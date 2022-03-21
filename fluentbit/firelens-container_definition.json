@@ -1,0 +1,9 @@
+{
+    "firelensConfiguration" : {
+        "type": "fluentbit",
+        "options": {
+            "config-file-type": "file",
+            "config-file-value": "/fluent-bit/etc/fluent-bit_custom.conf"
+        }
+    }
+}
