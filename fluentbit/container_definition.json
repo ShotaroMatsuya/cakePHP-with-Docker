@@ -1,9 +1,68 @@
 {
-    "firelensConfiguration" : {
+  "containerDefinitions": [
+    {
+      "name": "test",
+      "image": "***:latest",
+      "logConfiguration": {
+        "logDriver": "awsfirelens",
+        "secretOptions": null,
+        "options": null
+      },
+      "mountPoints": [
+        {
+          "readOnly": null,
+          "containerPath": "/var/www/html/logs",
+          "sourceVolume": "log-volume"
+        }
+      ]
+    },
+    {
+      "name": "nginx",
+      "image": "***:latest",
+      "logConfiguration": {
+        "logDriver": "awsfirelens",
+        "secretOptions": null,
+        "options": null
+      }
+    },
+    {
+      "name": "firelens_log_router",
+      "image": "***:latest",
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "secretOptions": null,
+        "options": {
+          "awslogs-group": "/aws/ecs/matsuyatest-firelens-logs",
+          "awslogs-region": "ap-northeast-1",
+          "awslogs-stream-prefix": "firelens"
+        }
+      },
+      "firelensConfiguration": {
         "type": "fluentbit",
         "options": {
-            "config-file-type": "file",
-            "config-file-value": "/fluent-bit/etc/fluent-bit_custom.conf"
+          "config-file-type": "file",
+          "enable-ecs-log-metadata": "true",
+          "config-file-value": "/fluent-bit/etc/fluent-bit_custom.conf"
         }
+      },
+      "mountPoints": [
+        {
+          "readOnly": null,
+          "containerPath": "/var/www/html/logs",
+          "sourceVolume": "log-volume"
+        }
+      ]
     }
+  ],
+  "volumes": [
+    {
+      "fsxWindowsFileServerVolumeConfiguration": null,
+      "efsVolumeConfiguration": null,
+      "name": "log-volume",
+      "host": {
+        "sourcePath": null
+      },
+      "dockerVolumeConfiguration": null
+    }
+  ]
 }

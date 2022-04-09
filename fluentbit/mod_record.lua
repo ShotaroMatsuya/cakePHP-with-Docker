@@ -1,5 +1,3 @@
--- logged_atに時刻を入れる
-
 function add_logged_at(tag, timestamp, record)
     -- YYYY-mm-ddTHH:MM:SSSZ形式
     -- luaのos.date関数は秒単位しか扱えないので
