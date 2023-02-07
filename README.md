@@ -399,3 +399,20 @@ Resources:
   ]
 }
 ```
+## パラメータ調整
+Fluent Bit のパラメータ調整
+前述のECSタスク定義のようにessentialパラメータを指定していない場合、全てのコンテナの essential パラメータは true となるため、PumaコンテナやNginxコンテナの終了はタスク終了のトリガーとなります。
+
+ECSの StopTimeout パラメータはデフォルト値で30秒なので、StopTimeoutパラメータの指定がない場合、ECSは30秒の猶予期間をもって、Fluent Bit コンテナを終了します。
+
+一方で、Fluent Bit側でGraceパラメータのデフォルト値は5秒です。Graceパラメータの指定がない場合、Fluent Bit はデフォルトでは SIGTERM を受け取ってから 5 秒しか待機せずにシャットダウンするため、ECSタスク定義側で設定されている30秒を全て利用していないことになります。[Service]の GraceパラメータをECSタスク定義側のStopTimeout値と合わせることで、ECS側の猶予期間を最大限に活用することができます。
+
+また、Fluent Bit の Flushパラメータはデフォルトで5秒なので、この値を小さくすれば転送頻度を上げることができます。
+
+以上より、Fluent BitのGraceパラメータとFlushパラメータを調整することで、タスクが終了したときに、ログが宛先に到達する可能性を高くすることができます。
+
+```
+[SERVICE]
+    Flush 1
+    Grace 30
+```
