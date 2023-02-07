@@ -400,7 +400,7 @@ Resources:
 }
 ```
 ## パラメータ調整
-Fluent Bit のパラメータ調整
+
 前述のECSタスク定義のようにessentialパラメータを指定していない場合、全てのコンテナの essential パラメータは true となるため、PumaコンテナやNginxコンテナの終了はタスク終了のトリガーとなります。
 
 ECSの StopTimeout パラメータはデフォルト値で30秒なので、StopTimeoutパラメータの指定がない場合、ECSは30秒の猶予期間をもって、Fluent Bit コンテナを終了します。
